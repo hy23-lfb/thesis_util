@@ -1,0 +1,111 @@
+We propose three innovative technical components: (1) An
+end-to-end cascading scheme that resolves large displacement;
+(2) An efficient integration of affine registration network; and
+(3) An additional invertibility loss that encourages backward
+consistency. 
+
+Image registration is the process of finding the non-linear
+spatial correspondence between the input images (see Fig-
+ure 1). It has a wide range of applications in medical image
+processing, such as aligning images of one subject taken at
+different times. Another example is to match an image of
+one subject to some predefined coordinate system, such as
+an anatomical atlas [1].
+
+Traditional methods
+have achieved good performance on several datasets, and are
+state-of-the-art, but their registration speed is barely practical
+for clinical applications.
+
+Given a sampling grid
+and a transformation, STN applies the warping operation and
+outputs the warped image for further consumption by deeper
+networks. The warping operation deals with off-grid points
+by multi-linear interpolation, hence is differentiable and can
+back-propagate gradients.
+
+There is a rich
+body of research into similarity losses [10], [11], [12].
+
+The network consists of several cascaded
+subnetworks, the number of which might vary, and each
+subnetwork is responsible for producing a transform that aligns
+the fixed image and the moving one. 
+
+Deeper layers register
+moving images warped according to the output of previous
+layers with the initial fixed image.
+
+It turns out that network
+cascading significantly improves the performance in the pres-
+ence of large displacement between the input images.
+
+We integrate affine registration into our
+network, which proves to be effective and faster than using
+a separate tool.
+
+Network cascading further
+allows us to plug in different subnetworks, and in this case,
+the affine registration subnetwork and the deformable ones,
+enabling us to adapt the natural structure of multiple stages
+in image registration.
+
+The
+optimization process is highly time-consuming, rendering such
+methods impractical for clinical applications.
+
+Affine transforms can be described by only a few
+real numbers, whereas a free-form dense deformable field
+specifies the displacement for each grid point.
+
+While supervised learning methods achieve good perfor-
+mance, either abundant groud-truth alignment must be avail-
+able, or synthetic data are used. Generation of synthetic
+data has to be carefully designed so that the generated data
+resemble the real ones. [In the paper, few references are also made.]
+
+In an earlier work towards fast and accurate medical image
+registration by Shan et al. [19], an unsupervised end-to-end
+learning-based method for deformable medical image registra-
+tion is proposed.
+
+ de Vos et al. [21] also try to stack
+multiple networks and investigate an affine network, however,
+each of them is trained independently and separately. Their
+method is not end-to-end and only achieves a comparable
+performance to their baseline methods
+
+Another work [22]
+proposes to train a multi-step affine network followed by
+a momentum generator network. Although their framework
+is claimed to be “end-to-end”, each stage is still trained
+separately after fixing the previous ones.
+
+VoxelMorph, proposed by Balakrishnan et al. [23], [24], is
+an unsupervised learning-based method for 3D medical image
+registration that predicts a dense deformation field. Another
+recently proposed unsupervised method by Krebs et al. [25],
+[26], based on a low-dimensional probablistic model, performs
+comparably to VoxelMorph.
+
+Furthermore, their algorithm does not work well
+when large displacement between the images is present, which
+is common for liver CT scans. [They are referring to Voxelmorph paper.]
+
+Finally, VoxelMorph is designed
+to take any two images as input, but [23] only evaluates it
+in the atlas-based registration scenario. Consider a clinical
+scenario where the brain of a patient is captured before and
+after an operation
+
+The larger the invertibility loss, the less round-trip the regis-
+tration. For perfectly round-trip registration, the invertibility
+loss is zero. We come up with, formulate, and implement the
+invertibility loss independently of [30]. We use L2 invertibility
+loss whereas [30] uses L1 left-right disparity consistency loss,
+which is just a matter of choice. We are the first to incorporate
+the invertibility loss into 3D images to boost performance on
+medical image tasks.
+
+
+

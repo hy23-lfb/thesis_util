@@ -1,0 +1,57 @@
+Typically, a
+patch-based correspondence detection approach is often used,
+where a patch is a fixed-size symmetric neighborhood of pixel
+intensity values centered a point in the image. And if two dif-
+ferent patches, from two different images, show similar mor-
+phological patterns, the two points (at each patch center) are
+considered to be well corresponded. 
+
+Because deformable image registration is very specific to the
+input data, it typically takes months, or even years, to develop a
+new image registration method that has acceptable performance
+for a new imaging modality or new imaging application. 
+
+The
+conventional way of selecting features, including the develop-
+ment of a similarity measurement, requires expert knowledge that is directly related to modality and application.
+
+For instance,
+it is not straightforward to apply the same feature selection meth-
+ods specifically designed for 1.5-T T1 weighted MR image to
+7.0-T T1 weighted MR images due to the significantly high
+signal-to-noise ratio (SNR) in the 7.0-T data [25].
+
+With the rapid progression
+of imaging technologies, more and more new modalities are
+emerging with potentials in disease diagnosis and treatment.
+Thus, the need for a general image registration framework that
+can quickly be deployed to new modalities and new applications is highly desirable.
+
+The general concept
+behind deep learning is to learn hierarchical feature represen-
+tations by inferring simple representations first and then pro-
+gressively build up more complex ones from the previous level.
+
+Compared with the shallow models, a deep learning architec-
+ture can encode multilevel information from simple to complex.
+Thus, for image registration, deep learning is very promising
+because it 1) is an unsupervised learning approach that does
+not require ground truth, 2) uses a hierarchical deep architec-
+ture to infer complex nonlinear relationships, 3) is completely
+data driven and not based on handcrafted feature selection, and
+4) can quickly and efficiently compute the hierarchical feature
+representation for any image patch in the testing data given the
+trained hierarchical deep architecture (or network).
+
+Encoder-Decoder architecture:
+On one hand, the multi-
+layer encoder network is used to transfer the high-dimensional
+3-D image patches into the low-dimensional feature represen-
+tations, where a single autoencoder (AE) is the building block to learn nonlinear and high-order correlations between two fea-
+ture representation layers. On the other hand, the decoder net-
+work is used to recover 3-D image patches from the learned
+low-dimensional feature representations, acting as feedback to
+refine the inferences in the encoder network.
+
+
+

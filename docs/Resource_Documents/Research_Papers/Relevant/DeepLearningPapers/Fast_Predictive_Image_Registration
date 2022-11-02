@@ -1,0 +1,27 @@
+We also provide a probabilistic version of our prediction network which can be
+sampled during the testing time to calculate uncertainties in the predicted deformations. 
+
+While computation time may not be overly critical for imaging studies of moderate size,
+rapid registration approaches are needed to (i) allow for interactive analysis, to (ii) allow
+their use as building blocks for more advanced image analysis algorithms; and to (iii) time-
+and cost- efficiently analyze very large imaging studies.
+
+Deformable image registration, which is a key component of many medical
+image analysis systems.
+
+Uncertainty quantification: We extend our network to a Bayesian model which is
+able to determine the uncertainty of the registration parameters and, as a result,
+the uncertainty of the deformation field. This uncertainty information could be
+used, e.g., for uncertainty-based smoothing [21], or for surgical treatment
+planning, or could be directly visualized for qualitative analyses.
+
+Correction network: Furthermore, we propose a correction network to increase
+the accuracy of the prediction network. Given a trained prediction network, the
+correction network predicts the difference between the ground truth momentum
+and the predicted result. The difference is used as a correction to the predicted
+momentum to increase prediction accuracy. Experiments show that the correction
+network improves registration results to the point where optimization-based and
+predicted registrations achieve a similar level of registration accuracy on
+registration validation experiments.
+
+

@@ -1,0 +1,83 @@
+A Deep Learning Framework for Unsupervised
+Affine and Deformable Image Registration
+Bob D. de Vos1, Floris F. Berendsen2, Max A. Viergever1, Hessam Sokooti2, Marius Staring2, Ivana Iˇsgum1
+Abstract
+Image registration, the process of aligning two or more images, is the core technique of many (semi-)automatic medical
+image analysis tasks. Recent studies have shown that deep learning methods, notably convolutional neural networks
+(ConvNets), can be used for image registration. Thus far training of ConvNets for registration was supervised using
+predefined example registrations. However, obtaining example registrations is not trivial. To circumvent the need for
+predefined examples, and thereby to increase convenience of training ConvNets for image registration, we propose the
+Deep Learning Image Registration (DLIR) framework for unsupervised affine and deformable image registration. In the
+DLIR framework ConvNets are trained for image registration by exploiting image similarity analogous to conventional
+intensity-based image registration. After a ConvNet has been trained with the DLIR framework, it can be used to
+register pairs of unseen images in one shot. We propose flexible ConvNets designs for affine image registration and
+for deformable image registration. By stacking multiple of these ConvNets into a larger architecture, we are able to
+perform coarse-to-fine image registration. We show for registration of cardiac cine MRI and registration of chest CT
+that performance of the DLIR framework is comparable to conventional image registration while being several orders of
+magnitude faster.
+
+t is a well-established technique in (semi-)automatic
+medical image analysis that is used to transfer informa-
+tion between images. Deep learning techniques are well suited for image reg-
+istration, because they automatically learn to aggregate
+the information of various complexities in images that are
+relevant for the task at hand. additionally, the use of
+deep learning techniques potentially yields high robust-
+ness. moreover, deep learning methods like convolutional neural networks
+are highly parallelizable which makes implementation and
+execution on GPUs straight-forward and fast. As a con-
+sequence deep learning enhanced registration methods are
+exceptionally fast making them interesting for time-critical
+applications; e.g. for emerging image guided therapies like
+High Intensity Focused Ultrasound (HIFU), the MRI Lin-
+ear Accelerator (MR-linac), and MRI-guided proton ther-
+apy.
+
+All scans have a slice thick-
+ness and spacing of 8 mm and an in-plane resolution of
+1.25 mm per voxel
+
+
+As im-
+age folding is anatomically implausible, especially in intra-
+patient image registration, after registration, we evaluated
+the topology of obtained DVFs quantitatively. For this we
+determined the Jacobian determinant–also known as the
+Jacobian–for every point p(i, j, k) in the DVF.
+
+A Jacobian of 1 indicates that no volume change has oc-
+cured. A Jacobian of > 1 indicates expansion, a Jacobian
+between 0 - 1 indicates shrinkage, and a Jacobian of ≤ 0
+indicates a singularity: i.e. a place where folding has oc-
+cured. 
+
+The Conv-
+Nets were initialized with Glorot’s uniform distribution
+(Glorot and Bengio, 2010) and optimized with Adam (Kingma
+and Ba, 2015).
+
+In our ConvNet
+design we exploit this property by choosing a receptive
+field that overlaps the support size of the B-spline basis
+functions, i.e. at least four times the grid spacing for a
+third order B-spline kernel. The ConvNet takes patches
+from fixed and moving images and predicts the B-spline
+control point displacements within that patch.
+
+Conventional image registration is often performed in
+multiple stages starting with affine registration, followed
+by coarse-to-fine stages of deformable image registration
+using B-splines. This hierarchical multi-stage strategy makes
+conventional iterative image registration less sensitive to
+local optima and image folding (Schnabel et al., 2001). We
+adopted this strategy for the DLIR framework by stacking
+multiple stages of ConvNets, each with its own registra-
+tion task. For example, a ConvNet for affine registration
+is followed by multiple ConvNets for coarse-to-fine B-spline
+registration, each ConvNet with a different B-spline grid
+spacing and images of different resolution as inputs. When
+multi-stage registration requires varying input resolutions,
+we propose average pooling (i.e. windowed averaging),
+which is a very common building block in deep learning frameworks.
+
+In this paper, the transformation parameters are predicted like 3 for Tx, 3 for Rx, 3 for Scale, 3 for Sheer in the case of affine transformation.
